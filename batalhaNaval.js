@@ -2,12 +2,12 @@ var TAMANHO_MAPA_X = 10; //Tamanho máximo recomendado 20
 var TAMANHO_MAPA_Y = 10; //Tamanho máximo recomendado 20, máximo = 99
 var TAMANHO_NAVIOS = [5,4,3,3,2]; //Cada número corresponde ao tamanho de um navio, é possível adicionar mais elementos ou modificar os números
 var CORES = ["Aqua","Aquamarine","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","Crimson","Cyan","DarkBlue","DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","Darkorange","DarkOrchid","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","ForestGreen","Fuchsia","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HotPink","Indigo","Khaki","LawnGreen","LemonChiffon","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSlateGray","LightSlateGrey","LightYellow","Lime","LimeGreen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","Moccasin","Navy","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","Sienna","Silver","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","Wheat","Yellow","YellowGreen"]
-var naviosJogador = []; //Array que guarda a posição dos navios do jogador
+var naviosJogador1 = []; //Array que guarda a posição dos navios do jogador1
 var naviosJogador2 = []; //Array que guarda a posição dos navios do Jogador2
-var naviosSemDestruidosJogador = []; //Array sem os navios que já foram destruidos do jogador
+var naviosSemDestruidosJogador1 = []; //Array sem os navios que já foram destruidos do jogador1
 var naviosSemDestruidosJogador2 = []; //Array sem os navios que já foram destruidos do Jogador2 
-var valoresIntroduzidosJogador = []; //Array que grava os valores introduzidos do jogador 
-var valoresIntroduzidosJogador2 = []; //Array que grava os valores introduzidos do Jogador2
+var valoresIntroduzidosJogador1 = []; //Array que grava os valores introduzidos pelo jogador1
+var valoresIntroduzidosJogador2 = []; //Array que grava os valores introduzidos pelo Jogador2
 var vezJogador1 = true; //Guarda de quem é a vez de jogar
 var acabouJogo = false; //Guarda o estado do jogo
 var numeroNavios = 0; //Cada subparte conta como 1
@@ -28,21 +28,21 @@ function Init() {
 //Configuração do jogo
 function configurarJogo() {
 		
-	criarTabuleiro("tabuleiroJogador"); //Cria o tabuleiro do jogador
-	criarNavios("tabuleiroJogador"); //Cria os navios do jogador
-	//carregarTabuleiro("tabuleiroJogador"); //Coloca visíveis os navios do Jogador
-	console.log(naviosJogador); //Coloca a posição dos navios do jogador na consola
+	criarTabuleiro("tabuleiroJogador1"); //Cria o tabuleiro do jogador1
+	criarNavios("tabuleiroJogador1"); //Cria os navios do jogador1
+	//carregarTabuleiro("tabuleiroJogador1"); //Coloca visíveis os navios do Jogador1
+	console.log(naviosJogador1); //Coloca a posição dos navios do jogador1 na consola
 	
 	criarTabuleiro("tabuleiroJogador2"); //Cria o tabuleiro do Jogador2
 	criarNavios("tabuleiroJogador2"); //Cria os navios do Jogador2
 	//carregarTabuleiro("tabuleiroJogador2"); //Coloca visíveis os navios do Jogador2
-	console.log(naviosJogador2); //Coloca a posição dos navios do jogador na consola
+	console.log(naviosJogador2); //Coloca a posição dos navios do jogador2 na consola
 	
 	//Define o tamanho da zona das informações
-	//tamanho é igual à variável altura da função criarBotao
-	var tamanho = 100 / (TAMANHO_MAPA_X + 1) * 0.01 * document.getElementById("tabuleiroJogador").clientWidth;
+	//
+	var tamanho = 100 / (TAMANHO_MAPA_X + 1) * 0.01 * document.getElementById("tabuleiroJogador1").clientWidth;
 	document.getElementById("informacoes").style.marginTop = tamanho + "px";
-	document.getElementById("informacoes").style.height = document.getElementById("tabuleiroJogador").clientWidth - tamanho + "px";
+	document.getElementById("informacoes").style.height = document.getElementById("tabuleiroJogador1").clientWidth - tamanho + "px";
 	
 	//Coloca a música de fundo
 	musicaFundo.loop = true;
@@ -50,8 +50,8 @@ function configurarJogo() {
 	musicaFundo.play();
 	
 	//Avisa o jogador que pode jogar
-	document.getElementById("informacoesJogador").innerHTML += "\r\nÉ a vez do jogador1!\r\n";
-	scrollAreaTexto("informacoesJogador"); //Serve para dar scroll automaticamente caso a caixa de texto fique cheia
+	document.getElementById("informacoesJogador1").innerHTML += "\r\nÉ a vez do jogador1!\r\n";
+	scrollAreaTexto("informacoesJogador1"); //Serve para dar scroll automaticamente caso a caixa de texto fique cheia
 }
 
 
@@ -76,7 +76,7 @@ function criarTabuleiro(tabuleiro) {
 		for (var j = 65; j < 65 + TAMANHO_MAPA_X; j++) {
 			var letra = String.fromCharCode(j);
 			
-			if (tabuleiro === "tabuleiroJogador") {
+			if (tabuleiro === "tabuleiroJogador1") {
 				var id = "botaoJ" + letra + i; //ID=botaoJA1 ou botaoJB4...
 			}
 			else {
@@ -84,7 +84,7 @@ function criarTabuleiro(tabuleiro) {
 			}
 			
 			//Função a ser executada quando o usuário clica no botão
-			if (tabuleiro === "tabuleiroJogador") {
+			if (tabuleiro === "tabuleiroJogador1") {
 				var funcao = function(){ 
 					if ((vezJogador1) && (!acabouJogo)) { //O botão apenas funciona se for a vez do jogador e o jogo não tiver acabado
 						if (jogo(this.id.charAt(6), this.id.charAt(7) + this.id.charAt(8), tabuleiro)){; //Executa a função jogo com algums argumentos
@@ -100,8 +100,8 @@ function criarTabuleiro(tabuleiro) {
 					if ((!vezJogador1) && (!acabouJogo)) { //O botão apenas funciona se for a vez do jogador e o jogo não tiver acabado
 						if (jogo(this.id.charAt(6), this.id.charAt(7) + this.id.charAt(8), tabuleiro)){; //Executa a função jogo com algums argumentos
 							vezJogador1 = true; //Impede o jogador2 de jogar
-							document.getElementById("informacoesJogador").innerHTML += "\r\nÉ a vez do jogador1!\r\n";
-							scrollAreaTexto("informacoesJogador"); //Caso a área de texto esteja cheia, dá scroll automaticamente		
+							document.getElementById("informacoesJogador1").innerHTML += "\r\nÉ a vez do jogador1!\r\n";
+							scrollAreaTexto("informacoesJogador1"); //Caso a área de texto esteja cheia, dá scroll automaticamente		
 						};
 					}
 				}
@@ -116,8 +116,8 @@ function criarTabuleiro(tabuleiro) {
 
 //Coloca os navios visíveis
 function carregarTabuleiro(tabuleiro){
-	if (tabuleiro === "tabuleiroJogador") {
-		var navios = naviosJogador;
+	if (tabuleiro === "tabuleiroJogador1") {
+		var navios = naviosJogador1;
 		var id = "botaoJ";
 	}
 	else {
@@ -155,7 +155,7 @@ function criarBotao(id, classe, texto, onClick, tabuleiro) {
 	
 	
 	//Define a classe
-	if ((classe === "botaoJogo") && (tabuleiro === "tabuleiroJogador")) {
+	if ((classe === "botaoJogo") && (tabuleiro === "tabuleiroJogador1")) {
 		botao.className = "botaoJogador";
 	}
 	else if ((classe === "botaoJogo") && (tabuleiro === "tabuleiroJogador2")) {
@@ -183,9 +183,9 @@ function criarBotao(id, classe, texto, onClick, tabuleiro) {
 //Gere a criação de navios
 function criarNavios(tabuleiro) {
 	
-	if (tabuleiro === "tabuleiroJogador") {
-		var navios = naviosJogador;
-		var naviosSemDestruidos = naviosSemDestruidosJogador;
+	if (tabuleiro === "tabuleiroJogador1") {
+		var navios = naviosJogador1;
+		var naviosSemDestruidos = naviosSemDestruidosJogador1;
 	}
 	else {
 		var navios = naviosJogador2;
@@ -265,8 +265,8 @@ function colisoesNavioMapa(navio) {
 //Verifica se o navio colide com os outros navios
 function colisoesNavioNavio(navio, tabuleiro) { 
 
-	if (tabuleiro === "tabuleiroJogador") {
-		var navios = naviosJogador;
+	if (tabuleiro === "tabuleiroJogador1") {
+		var navios = naviosJogador1;
 	}
 	else {
 		var navios = naviosJogador2;
@@ -290,9 +290,9 @@ function colisoesNavioNavio(navio, tabuleiro) {
 function jogo(letra, numero, tabuleiro) {
 	
 	if (!verificarJogada(letra, numero, tabuleiro)) { //Verifica se a jogada é válida
-		if (tabuleiro === "tabuleiroJogador") {
-			document.getElementById("informacoesJogador").innerHTML += "Valor repetido. Tenta de novo!\r\n";
-			scrollAreaTexto("informacoesJogador");
+		if (tabuleiro === "tabuleiroJogador1") {
+			document.getElementById("informacoesJogador1").innerHTML += "Valor repetido. Tenta de novo!\r\n";
+			scrollAreaTexto("informacoesJogador1");
 		}
 		else if (tabuleiro === "tabuleiroJogador2") {
 			document.getElementById("informacoesJogador2").innerHTML += "Valor repetido. Tenta de novo!\r\n";
@@ -302,11 +302,11 @@ function jogo(letra, numero, tabuleiro) {
 	}
 	
 	
-	if (tabuleiro === "tabuleiroJogador") {
+	if (tabuleiro === "tabuleiroJogador1") {
 		totalJogadas++; //Conta mais uma jogada	
 		var botaoEscolhido = "botaoJ" + letra + numero; //Botão selecionado
-		document.getElementById("informacoesJogador").innerHTML += "O Jogador1 jogou na posição " + letra + numero + ".\r\n";
-		scrollAreaTexto("informacoesJogador");
+		document.getElementById("informacoesJogador1").innerHTML += "O Jogador1 jogou na posição " + letra + numero + ".\r\n";
+		scrollAreaTexto("informacoesJogador1");
 	}
 	else {
 		var botaoEscolhido = "botaoC" + letra + numero; //Botão selecionado
@@ -317,9 +317,9 @@ function jogo(letra, numero, tabuleiro) {
 	
 	if (verificarAcertouNavio(letra, numero, tabuleiro)) { //Verifica se acertou num navio
 		document.getElementById(botaoEscolhido).style.backgroundColor = "DarkRed";
-		if (tabuleiro === "tabuleiroJogador") {
-			document.getElementById("informacoesJogador").innerHTML += "O Jogador1 acertou num navio!\r\n";
-			scrollAreaTexto("informacoesJogador");
+		if (tabuleiro === "tabuleiroJogador1") {
+			document.getElementById("informacoesJogador1").innerHTML += "O Jogador1 acertou num navio!\r\n";
+			scrollAreaTexto("informacoesJogador1");
 			canhao.load(); //Reset som
 			canhao.play(); //Play som
 		}
@@ -333,9 +333,9 @@ function jogo(letra, numero, tabuleiro) {
 	
 	else { //Caso não acerte num navio
 		document.getElementById(botaoEscolhido).style.backgroundColor = "SkyBlue";
-		if (tabuleiro === "tabuleiroJogador") {
-			document.getElementById("informacoesJogador").innerHTML += "O Jogador1 falhou!\r\n";
-			scrollAreaTexto("informacoesJogador");
+		if (tabuleiro === "tabuleiroJogador1") {
+			document.getElementById("informacoesJogador1").innerHTML += "O Jogador1 falhou!\r\n";
+			scrollAreaTexto("informacoesJogador1");
 			agua.load(); //Reset som
 			agua.play(); //Play som
 		}
@@ -349,12 +349,12 @@ function jogo(letra, numero, tabuleiro) {
 	}
 	
 	if (verificarDestruiuNavio(index, tabuleiro)) { //Verifica se destruíu o navio
-		if (tabuleiro === "tabuleiroJogador") {
-			document.getElementById("informacoesJogador").innerHTML += "O jogador1 afundou um navio!\r\n";
-			scrollAreaTexto("informacoesJogador");
+		if (tabuleiro === "tabuleiroJogador1") {
+			document.getElementById("informacoesJogador1").innerHTML += "O jogador1 afundou um navio!\r\n";
+			scrollAreaTexto("informacoesJogador1");
 			explosao.load(); //Reset som
 			explosao.play(); //Play som
-			var navios = naviosJogador;			
+			var navios = naviosJogador1;			
 		}
 		else {
 			document.getElementById("informacoesJogador2").innerHTML += "O Jogador2 afundou um navio!\r\n";
@@ -366,7 +366,7 @@ function jogo(letra, numero, tabuleiro) {
 		
 		var cor = corAleatoria();
 		for (var j=0; j < navios[index].length; j++) { //Coloca todos os pedaçõs do navio destruido a outra cor
-			if (tabuleiro === "tabuleiroJogador") {
+			if (tabuleiro === "tabuleiroJogador1") {
 				var botao = "botaoJ" + navios[index][j];
 			}
 			else {
@@ -378,7 +378,7 @@ function jogo(letra, numero, tabuleiro) {
 	
 	if (verificarAcabouJogo(tabuleiro)) { //Verifica se ganhou o jogo
 	
-		if (tabuleiro === "tabuleiroJogador") {
+		if (tabuleiro === "tabuleiroJogador1") {
 			alert("O jogador1 ganhou o jogo!");
 			estatisticas(); //Mostra as estatisticas
 		}
@@ -396,8 +396,8 @@ function jogo(letra, numero, tabuleiro) {
 //Verifica a jogada
 function verificarJogada(letra, numero, tabuleiro) {
 	
-	if (tabuleiro === "tabuleiroJogador") {
-		var valoresIntroduzidos = valoresIntroduzidosJogador;
+	if (tabuleiro === "tabuleiroJogador1") {
+		var valoresIntroduzidos = valoresIntroduzidosJogador1;
 	}
 	else {
 		var valoresIntroduzidos = valoresIntroduzidosJogador2;
@@ -414,10 +414,10 @@ function verificarJogada(letra, numero, tabuleiro) {
 
 
 //Verifica se acertou num navio
-function verificarAcertouNavio(letra, numero, tabuleiro) { //Verifica se o jogador acertou num navio
+function verificarAcertouNavio(letra, numero, tabuleiro) { //Verifica se acertou num navio
 
-	if (tabuleiro === "tabuleiroJogador") {
-		var naviosSemDestruidos = naviosSemDestruidosJogador;
+	if (tabuleiro === "tabuleiroJogador1") {
+		var naviosSemDestruidos = naviosSemDestruidosJogador1;
 	}
 	else {
 		var naviosSemDestruidos = naviosSemDestruidosJogador2;
@@ -439,14 +439,14 @@ function verificarAcertouNavio(letra, numero, tabuleiro) { //Verifica se o jogad
 //Verifica se destruiu um navio
 function verificarDestruiuNavio(index, tabuleiro) {
 	
-	if (tabuleiro === "tabuleiroJogador") {
-		var naviosSemDestruidos = naviosSemDestruidosJogador;
+	if (tabuleiro === "tabuleiroJogador1") {
+		var naviosSemDestruidos = naviosSemDestruidosJogador1;
 	}
 	else {
 		var naviosSemDestruidos = naviosSemDestruidosJogador2;
 	}
 	
-	for (i=0; i<naviosSemDestruidosJogador.length; i++) {
+	for (i=0; i<naviosSemDestruidosJogador1.length; i++) {
 		if (naviosSemDestruidos[i].length == 0) {
 			naviosSemDestruidos[i]=-1; //Define o valor dos navios destruidos para -1
 			return true;
@@ -459,9 +459,9 @@ function verificarDestruiuNavio(index, tabuleiro) {
 //Verifica se acabou o jogo
 function verificarAcabouJogo(tabuleiro) {
 	
-	if (tabuleiro === "tabuleiroJogador") {
-		var navios = naviosJogador;
-		var naviosSemDestruidos = naviosSemDestruidosJogador;
+	if (tabuleiro === "tabuleiroJogador1") {
+		var navios = naviosJogador1;
+		var naviosSemDestruidos = naviosSemDestruidosJogador1;
 	}
 	else {
 		var navios = naviosJogador2;
@@ -481,8 +481,8 @@ function verificarAcabouJogo(tabuleiro) {
 function estatisticas() {
 	
 	var estatistica = "\r\nFoi preciso um total de " + totalJogadas + " jogadas para afundar os navios, o que quer dizer que a tua pontaria foi de " + Math.round((numeroNavios/totalJogadas)*100) + "%\r\n";
-	document.getElementById("informacoesJogador").innerHTML += estatistica;
-	scrollAreaTexto("informacoesJogador");
+	document.getElementById("informacoesJogador1").innerHTML += estatistica;
+	scrollAreaTexto("informacoesJogador1");
 }
 
 

@@ -31,7 +31,7 @@
 	vertical-align: bottom;
 }
 
-#tabuleiroJogador {
+#tabuleiroJogador1 {
     display: inline-block;
 	outline: none;
 	text-align: center;
@@ -71,7 +71,7 @@
 	width: 100%;
 }
 
-#informacoesJogador {
+#informacoesJogador1 {
 	width: 100%;
 	height: 90%;
 	outline:none;
